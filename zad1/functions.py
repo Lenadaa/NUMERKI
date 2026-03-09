@@ -25,8 +25,24 @@ def exponentialDeriv(x):
 def trigonometric(x):
     return math.cos(x)
 
-def trigometricDeriv(x):
+def trigonometricDeriv(x):
     return -1 * math.sin(x)
+
+def complex_exp_in_poly(x):
+    resultx = exponential(x)
+    return polynomial(resultx)
+
+def complex_exp_in_polyDeriv(x):
+    fX = exponential(x)
+    return polynomialDeriv(fX) * exponentialDeriv(x)
+
+def complex_poly_in_tryg(x):
+    resultx = polynomial(x)
+    return trigonometric(resultx)
+
+def complex_poly_in_trygDeriv(x):
+    fX = polynomial(x)
+    return trigonometricDeriv(fX) * polynomialDeriv(x)
 
 def validationBisection(resultx0,resultx1,x1,x2,x0):
     if (resultx0 == 0):
@@ -35,6 +51,7 @@ def validationBisection(resultx0,resultx1,x1,x2,x0):
         return x1, x0
     else:
         return x0, x2
+
 def functionType(type,x1,x2,deriv):
     if deriv == False:
         if type == 1:
@@ -49,6 +66,14 @@ def functionType(type,x1,x2,deriv):
             resultx1 = trigonometric(x1)
             resultx2 = trigonometric(x2)
             return resultx1, resultx2
+        elif type == 4:
+            resultx1 = complex_exp_in_poly(x1)
+            resultx2 = complex_exp_in_poly(x2)
+            return resultx1, resultx2
+        elif type == 5:
+            resultx1 = complex_poly_in_tryg(x1)
+            resultx2 = complex_poly_in_tryg(x2)
+            return resultx1, resultx2
     else:
         if type == 1:
             resultx1 = polynomialDeriv(x1)
@@ -59,7 +84,15 @@ def functionType(type,x1,x2,deriv):
             resultx2 = exponentialDeriv(x2)
             return resultx1, resultx2
         elif type == 3:
-            resultx1 = trigometricDeriv(x1)
-            resultx2 = trigometricDeriv(x2)
+            resultx1 = trigonometricDeriv(x1)
+            resultx2 = trigonometricDeriv(x2)
+            return resultx1, resultx2
+        elif type == 4:
+            resultx1 = complex_exp_in_polyDeriv(x1)
+            resultx2 = complex_exp_in_polyDeriv(x2)
+            return resultx1, resultx2
+        elif type == 5:
+            resultx1 = complex_poly_in_trygDeriv(x1)
+            resultx2 = complex_poly_in_trygDeriv(x2)
             return resultx1, resultx2
 

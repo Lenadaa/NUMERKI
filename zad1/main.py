@@ -7,7 +7,7 @@ import numpy as np
 
 
 def plots(type,a,b):
-    coloBlue = matplotlib.patches.Patch(color='blue', label='Metoda bisekcji')
+    colorBlue = matplotlib.patches.Patch(color='blue', label='Metoda bisekcji')
     colorRed = matplotlib.patches.Patch(color='red', label='Metoda siecznych')
     fig, ax = plt.subplots(figsize=(8, 5))
     x_range = np.linspace(a, b, 50)
@@ -25,20 +25,34 @@ def plots(type,a,b):
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     if type == 3:
         y_range = [functions.trigonometric(x) for x in x_range]
-        ax.plot(x_range, y_range, label="Wykładnicza")
+        ax.plot(x_range, y_range, label="Trygonometryczna")
+        ax.scatter(bisectionValues[0], 0, color='blue')
+        ax.scatter(secantValues[0], 0, color='red')
+        ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
+    if type == 4:
+        y_range = [functions.complex_exp_in_poly(x) for x in x_range]
+        ax.plot(x_range, y_range, label="Złożona")
+        ax.scatter(bisectionValues[0], 0, color='blue')
+        ax.scatter(secantValues[0], 0, color='red')
+        ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
+    if type == 5:
+        y_range = [functions.complex_poly_in_tryg(x) for x in x_range]
+        ax.plot(x_range, y_range, label="Złożona v2")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
 
     ax.set_title("Wizualizacja funkcji")
-    ax.legend(handles=[coloBlue, colorRed])
+    ax.legend(handles=[colorBlue, colorRed])
     plt.grid(True)
     plt.show()
 
 options = {
     1: "wielomian",
     2: "wykładnicza",
-    3: "trygonmetryczna"
+    3: "trygonmetryczna",
+    4: "złożona",
+    5: "złożona v2"
 }
 
 print("Typy funkcji:")
