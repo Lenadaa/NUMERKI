@@ -13,31 +13,31 @@ def plots(type,a,b):
     x_range = np.linspace(a, b, 50)
     if type == 1:
         y_range = [functions.polynomial(val) for val in x_range]
-        ax.plot(x_range, y_range, label="Wielomian")
+        ax.plot(x_range, y_range, label="f(x) Wielomian")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     if type == 2:
         y_range = [functions.exponential(x) for x in x_range]
-        ax.plot(x_range, y_range, label="Wykładnicza")
+        ax.plot(x_range, y_range, label="g(x) Wykładnicza")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     if type == 3:
         y_range = [functions.trigonometric(x) for x in x_range]
-        ax.plot(x_range, y_range, label="Trygonometryczna")
+        ax.plot(x_range, y_range, label="h(x) Trygonometryczna")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     if type == 4:
         y_range = [functions.complex_exp_in_poly(x) for x in x_range]
-        ax.plot(x_range, y_range, label="Złożona")
+        ax.plot(x_range, y_range, label="f(g(x)) Złożona")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     if type == 5:
         y_range = [functions.complex_poly_in_tryg(x) for x in x_range]
-        ax.plot(x_range, y_range, label="Złożona v2")
+        ax.plot(x_range, y_range, label="h(f(x)) Złożona")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
@@ -48,11 +48,11 @@ def plots(type,a,b):
     plt.show()
 
 options = {
-    1: "wielomian",
-    2: "wykładnicza",
-    3: "trygonmetryczna",
-    4: "złożona",
-    5: "złożona v2"
+    1: "f(x) wielomian",
+    2: "g(x) wykładnicza",
+    3: "h(x) trygonmetryczna",
+    4: "f(g(x)) złożona",
+    5: "h(f(x)) złożona "
 }
 
 print("Typy funkcji:")
