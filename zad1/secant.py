@@ -2,8 +2,8 @@ import functions
 
 def secant_it(it, type, x0, x1):
 
-    derivedx0, derivedx1 = functions.functionType(type, x0, x1, True)
-    resultx0, resultx1 = functions.functionType(type, x0, x1, False)
+    derivedx0, derivedx1 = functions.functionType(type, x0, x1, True,coeff=[0])
+    resultx0, resultx1 = functions.functionType(type, x0, x1, False,coeff=[0])
 
     if (derivedx0 == 0 or derivedx1 == 0):
         return None, None
@@ -11,7 +11,7 @@ def secant_it(it, type, x0, x1):
         return None, None
 
     for x in range(it):
-        resultx0, resultx1 = functions.functionType(type, x0, x1, False)
+        resultx0, resultx1 = functions.functionType(type, x0, x1, False,coeff=[0])
         if (resultx0 - resultx1) == 0:
             return x1,it
         a = resultx1 * (x1 - x0)
@@ -24,8 +24,8 @@ def secant_it(it, type, x0, x1):
 def secant_stop(eps, type, x0, x1):
     it = 0
 
-    derivedx0, derivedx1 = functions.functionType(type, x0, x1, True)
-    resultx0, resultx1 = functions.functionType(type, x0, x1, False)
+    derivedx0, derivedx1 = functions.functionType(type, x0, x1, True,coeff=[0])
+    resultx0, resultx1 = functions.functionType(type, x0, x1, False,coeff=[0])
 
     if (derivedx0 == 0 or derivedx1 == 0):
         return None, None
@@ -34,7 +34,7 @@ def secant_stop(eps, type, x0, x1):
 
     while True:
         it += 1
-        resultx0, resultx1 = functions.functionType(type, x0, x1, False)
+        resultx0, resultx1 = functions.functionType(type, x0, x1, False,coeff=[0])
         if (resultx0 - resultx1) == 0:
             return x1,it
 
