@@ -81,9 +81,7 @@ def basicFunctions():
             for i in range(coefficientsNumber):
                 x = float(input(f"Podaj współczynnik nr {i + 1}: "))
                 coefficiants.append(x)
-            a, b = limits()
-            stopType, stopAccuracy = stopMethod()
-            bisection, secant = selectStop(stopType, a, b, functionType, coefficiants, stopAccuracy)
+            return functionType, coefficiants
         except ValueError:
             raise ValueError("[BŁĄD] Wprowadz cyfre!")
     if functionType == 2:
@@ -93,9 +91,7 @@ def basicFunctions():
             for i in range(3):
                 userInput = float(input(f"Podaj współczynnik {i + 1}: "))
                 coefficiants.append(userInput)
-            a, b = limits()
-            stopType, stopAccuracy = stopMethod()
-            bisection, secant = selectStop(stopType, a, b, functionType, coefficiants, stopAccuracy)
+            return functionType, coefficiants
         except ValueError:
             raise ValueError("[BŁĄD] Wprowadz cyfre!")
     if functionType == 3:
@@ -107,15 +103,31 @@ def basicFunctions():
             print("3. Tangents")
             userInput = int(input("Podaj trygonometryczna (1,2,3): "))
             trigType.append(userInput)
-            a, b = limits()
-            stopType, stopAccuracy = stopMethod()
-            print(trigType[0])
-            bisection, secant = selectStop(stopType, a, b, functionType, trigType, stopAccuracy)
+            return functionType, trigType
         except ValueError:
             raise ValueError("[BŁĄD] Wprowadz cyfre!")
+    # --- PRZYKŁAD UŻYCIA ---
+
+    # Chcemy obliczyć: f(g(h(x))) gdzie:
+    # h(x) = sin(x)              (Typ 3, coeff 1)
+    # g(x) = 2x^2 + 10           (Typ 1, coeff [2, 0, 10])
+    # f(x) = 2^x * 1 + 0         (Typ 2, coeff [2, 1, 0])
+
+    moje_operacje = [
+        (3, 1),  # Najpierw Sinus
+        (1, [2, 0, 10]),  # Potem Wielomian
+        (2, [2, 1, 0])  # Na końcu Wykładnicza
+    ]
 def complexFunctions():
     depth = int(input("Podaj stopień złożenia funkcji"))
-    print(depth)
+    operations = []
+    for i in range(depth):
+        functionType, coeff = basicFunctions()
+        operations.append((functionType,coeff))
+    print(functions.complexFunction(operations,5))
+
+
+
 
 print("======== Rodzaj funkcji ========")
 print ("1. Podstawowe funkcje \n2. Złożone funkcje")

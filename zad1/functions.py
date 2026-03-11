@@ -65,11 +65,16 @@ def function_type(type,coefficients,x):
         result = exponential(coefficients, x)
         return result
     elif type == 3:
-        result = trigonometric(coefficients, x)
+        if isinstance(coefficients,list): #Tutaj to jest do sprawdzanie dlaczego tak działa
+            trig_type = int(coefficients[0])
+        else:
+            trig_type = int(coefficients)
+        result = trigonometric(trig_type, x)
         return result
 
-    def compostion(function,x,depth):
-        results = 0
-        for i in range(depth):
-            results = function(x)
-        return results
+
+def complexFunction(operations, x):
+    result = x
+    for f_type, coeffs in operations:
+        result = function_type(f_type, coeffs, result)
+    return result
