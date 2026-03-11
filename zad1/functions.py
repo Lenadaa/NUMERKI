@@ -1,123 +1,64 @@
 import math
 
-def polynomial(coefficient, x):
-    result = coefficient[0]
-    for i in range(1,len(coefficient)):
-        result = result * x + coefficient[i]
+def polynomial_horner(coefficients, x):
+    result = coefficients[0]
+    for i in range(1, len(coefficients)):
+        result = result * x + coefficients[i]
     return result
 
-#
-# def polynomialDeriv(x):
-#     a = 0.5
-#     b = -3
-#     c = 5
-#     resultx = 3 * a * (x ** 2) + 2 * b * (x ** 1) + c
-#     return resultx
-#
-# def exponential(a, x):
-#     resultx = a ** x
-#     return resultx
-#
-# def exponentialDeriv(x):
-#     a = 5
-#     result = (a**x) * math.log(a)
-#     return result
-#
-# def trigonometric(x,trigType):
-#     if trigType == 1:
-#         result = math.sin(x)
-#         return result
-#     elif trigType == 2:
-#         result = math.cos(x)
-#         return result
-#     elif trigType == 3:
-#         result = math.tan(x)
-#         return result
-#     else:
-#         return None
-#
-# def trigonometricDeriv(x,trigType):
-#     if trigType == 1:
-#         result  = math.cos(x)
-#         return result
-#     elif trigType == 2:
-#         result = -1 * math.sin(x)
-#         return result
-#     elif trigType == 3:
-#         a = math.cos(x) * math.cos(x)
-#         return 1/a
-#     else:
-#         return None
-# def complex_exp_in_poly(x):
-#     resultx = exponential(x)
-#     return polynomial(resultx)
-#
-# def complex_exp_in_polyDeriv(x):
-#     fX = exponential(x)
-#     return polynomialDeriv(fX) * exponentialDeriv(x)
-#
-# def complex_poly_in_tryg(x):
-#     resultx = polynomial(x)
-#     return trigonometric(resultx)
-#
-# def complex_poly_in_trygDeriv(x):
-#     fX = polynomial(x)
-#     return trigonometricDeriv(fX) * polynomialDeriv(x)
-#
-# def validationBisection(resultx0,resultx1,x1,x2,x0):
-#     if (resultx0 == 0):
-#         return x0, x0
-#     if (resultx1 * resultx0 < 0):
-#         return x1, x0
-#     else:
-#         return x0, x2
-#
-# def functionType(type,x1,x2,deriv,coeff):
-#     if deriv == False:
-#         if type == 1:
-#             resultx1 = polynomial(coeff,x1)
-#             resultx2 = polynomial(coeff,x2)
-#             return resultx1, resultx2
-#         elif type == 2:
-#             resultx1 = exponential(x1)
-#             resultx2 = exponential(x2)
-#             return resultx1, resultx2
-#         elif type == 3:
-#             resultx1 = trigonometric(x1)
-#             resultx2 = trigonometric(x2)
-#             return resultx1, resultx2
-#         elif type == 4:
-#             resultx1 = complex_exp_in_poly(x1)
-#             resultx2 = complex_exp_in_poly(x2)
-#             return resultx1, resultx2
-#         elif type == 5:
-#             resultx1 = complex_poly_in_tryg(x1)
-#             resultx2 = complex_poly_in_tryg(x2)
-#             return resultx1, resultx2
-#     else:
-#         if type == 1:
-#             resultx1 = polynomialDeriv(x1)
-#             resultx2 = polynomialDeriv(x2)
-#             return resultx1, resultx2
-#         elif type == 2:
-#             resultx1 = exponentialDeriv(x1)
-#             resultx2 = exponentialDeriv(x2)
-#             return resultx1, resultx2
-#         elif type == 3:
-#             resultx1 = trigonometricDeriv(x1)
-#             resultx2 = trigonometricDeriv(x2)
-#             return resultx1, resultx2
-#         elif type == 4:
-#             resultx1 = complex_exp_in_polyDeriv(x1)
-#             resultx2 = complex_exp_in_polyDeriv(x2)
-#             return resultx1, resultx2
-#         elif type == 5:
-#             resultx1 = complex_poly_in_trygDeriv(x1)
-#             resultx2 = complex_poly_in_trygDeriv(x2)
-#             return resultx1, resultx2
-#
+def polynomial_derivative(coefficients):
+    amount = len(coefficients)
+    it = 0
+    derivative_coefficients = []
+    while amount > 1:
+        amount -= 1
+        derivative_coefficients.append(coefficients[it] * amount)
+        it += 1
+    return derivative_coefficients
+
+def exponential(coefficients, x):
+    a = coefficients[0]
+    c = coefficients[1]
+    d = coefficients[2]
+    result = a ** x * c + d
+    return result
+
+def exponential_derivative(coefficients, x):
+    a = coefficients[0]
+    c = coefficients[1]
+    result = (a ** x) * c * math.log(a)
+    return result
+
+def trigonometric(trig_type, x):
+    if trig_type == 1:
+        return math.sin(x)
+    elif trig_type == 2:
+        return math.cos(x)
+    elif trig_type == 3:
+        return math.tan(x)
+    else:
+        raise TypeError("Funkcja trygonometryczna nie istnieje")
+
+def trigonometric_derivative(trig_type, x):
+    if trig_type == 1:
+        return math.cos(x)
+    elif trig_type == 2:
+        return -1 * math.sin(x)
+    elif trig_type == 3:
+        return math.cos(x) * math.cos(x)
+    else:
+        raise TypeError("Funkcja trygonometryczna nie istnieje")
+
+def validation_bisection(result_x0, result_a, a, b, x0):
+    if result_x0 == 0:
+        return x0, x0
+    elif result_a * result_x0 < 0:
+        return a, x0
+    else:
+        return x0, b
+
 def polynomial(coefficient, x):
     result = coefficient[0]
-    for i in range(1,len(coefficient)):
+    for i in range(1, len(coefficient)):
         result = result * x + coefficient[i]
     return result

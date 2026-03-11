@@ -1,58 +1,76 @@
-import functions
+from functions import validation_bisection, polynomial_horner, exponential, trigonometric
 
-def bisection_it(a, b, type, coeff, it): #przedział a-b, typ funkcji, liczba iteracji
-    result_a, result_b =
+def bisection_it (a, b, type, coefficients, it):
 
+    result_a, result_b, result_x0, x0  = 0, 0, 0, 0
 
-# def bisection_it(it, type, x1, x2,coeff):
-#
-#     resultx1, resultx2 = functions.functionType(type, x1, x2,False,coeff)
-#
-#     if resultx1 * resultx2 >= 0:
-#         return None,None
-#
-#     for x in range(it):
-#
-#         x0 = (x1 + x2) / 2
-#
-#         if type == 1:
-#             resultx0 = functions.polynomial(coeff,x0)
-#         elif type == 2:
-#             resultx0 = functions.exponential(x0)
-#         elif type == 3:
-#             resultx0 = functions.trigonometric(x0)
-#         elif type == 4:
-#             resultx0 = functions.complex_exp_in_poly(x0)
-#         elif type == 5:
-#             resultx0 = functions.complex_poly_in_tryg(x0)
-#
-#         x1,x2 = functions.validationBisection(resultx0,resultx1,x1,x2,x0)
-#
-#     return (x1 + x2)/2,it
-# def bisection_stop(eps,type,x1,x2,coeff):
-#     it = 0
-#     resultx1, resultx2 = functions.functionType(type, x1, x2, False,coeff)
-#
-#     if resultx1 * resultx2 >= 0:
-#         return None,it
-#
-#     while True:
-#         it += 1
-#         x0 = (x1 + x2) / 2
-#         if type == 1:
-#             resultx0 = functions.polynomial(coeff,x0)
-#         elif type == 2:
-#             resultx0 = functions.exponential(x0)
-#         elif type == 3:
-#             resultx0 = functions.trigonometric(x0)
-#         elif type == 4:
-#             resultx0 = functions.complex_exp_in_poly(x0)
-#         elif type == 5:
-#             resultx0 = functions.complex_poly_in_tryg(x0)
-#
-#         if abs(resultx0) < eps:
-#             return x0,it
-#         if it > 300:
-#             print("Przekroczono liczbe iteracji")
-#             return x0,it
-#         x1,x2 = functions.validationBisection(resultx0,resultx1,x1,x2,x0)
+    if type == 1:
+        result_a = polynomial_horner(coefficients, a)
+        result_b = polynomial_horner(coefficients, b)
+    if type == 2:
+        result_a = exponential(coefficients, a)
+        result_b = exponential(coefficients, b)
+    if type == 3:
+        result_a = trigonometric(coefficients[0], a)
+        result_b = trigonometric(coefficients[0], b)
+
+    if result_a * result_b >= 0:
+        raise TypeError("Funkcja w podanym przedziale nie zmienia znaku, miejsce zerowe nie istnieje")
+
+    for x in range(it):
+
+        x0 = (a + b) / 2
+
+        if type == 1:
+            result_x0 = polynomial_horner(coefficients, x0)
+        if type == 2:
+            result_x0 = exponential(coefficients, x0)
+        if type == 3:
+            result_x0 = trigonometric(coefficients[0], x0)
+
+        a, b = validation_bisection(result_x0, result_a, a, b, x0)
+
+    return x0, it
+
+def bisection_stop (a, b, type, coefficients, eps):
+
+    it = 0
+
+    result_a, result_b, result_x0 = 0, 0, 0
+
+    if type == 1:
+        result_a = polynomial_horner(coefficients, a)
+        result_b = polynomial_horner(coefficients, b)
+
+    if type == 2:
+        result_a = exponential(coefficients, a)
+        result_b = exponential(coefficients, b)
+
+    if type == 3:
+        result_a = trigonometric(coefficients[0], a)
+        result_b = trigonometric(coefficients[0], b)
+
+    if result_a * result_b >= 0:
+        raise TypeError("Funkcja w podanym przedziale nie zmienia znaku, miejsce zerowe nie istnieje")
+
+    while True:
+
+        it += 1
+
+        x0 = (a + b) / 2
+
+        if type == 1:
+            result_x0 = polynomial_horner(coefficients, x0)
+        if type == 2:
+            result_x0 = exponential(coefficients, x0)
+        if type == 3:
+            result_x0 = trigonometric(coefficients[0], x0)
+
+        if abs(result_x0) < eps:
+            return x0, it
+
+        if it > 300:
+            print("Przekroczono liczbę iteracji")
+            return x0, it
+
+        a, b = validation_bisection(result_x0, result_a, a, b, x0)

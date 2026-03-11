@@ -1,6 +1,40 @@
-import matplotlib
-from matplotlib import pyplot as plt
-import numpy as np
+from bisection import bisection_it, bisection_stop
+from secant import secant_it, secant_stop
+
+print("----------WIELOMIAN----------")
+coefficients = [0.5, -3, 5, 3]
+print(bisection_it(-2, 2, 1, coefficients, 100))
+print(bisection_stop(-2, 2, 1, coefficients, 0.00000000001))
+print(secant_it(-2, 2, 1, coefficients, 100))
+print(secant_stop(-2, 2, 1, coefficients, 0.00000000001))
+
+print("----------F. WYKŁADNICZA----------")
+coefficients = [2, 2, -4]
+print(bisection_it(-2, 2, 2, coefficients, 100))
+print(bisection_stop(-2, 2, 2, coefficients, 0.00000000001))
+print(secant_it(-2, 2, 2, coefficients, 100))
+print(secant_stop(-2, 2, 2, coefficients, 0.00000000001))
+
+print("----------SIN(X)----------")
+coefficients = [1]
+print(bisection_it(-1, 1, 3, coefficients, 100))
+print(bisection_stop(-1, 1, 3, coefficients, 0.00000000001))
+print(secant_it(-1, 1, 3, coefficients, 100))
+print(secant_stop(-1, 1, 3, coefficients, 0.00000000001))
+
+print("----------COS(X)----------")
+coefficients = [2]
+print(bisection_it(1, 2, 3, coefficients, 100))
+print(bisection_stop(1, 2, 3, coefficients, 0.00000000001))
+print(secant_it(1, 2, 3, coefficients, 100))
+print(secant_stop(1, 2, 3, coefficients, 0.00000000001))
+
+print("----------TAN(X)----------")
+coefficients = [3]
+print(bisection_it(2, 4, 3, coefficients, 100))
+print(bisection_stop(2, 4, 3, coefficients, 0.00000000001))
+print(secant_it(2, 4, 3, coefficients, 100))
+print(secant_stop(2, 4, 3, coefficients, 0.00000000001))
 #
 # def plots(type,a,b,coeff):
 #     colorBlue = matplotlib.patches.Patch(color='blue', label='Metoda bisekcji')
@@ -115,25 +149,25 @@ import numpy as np
 #     print(secantValues[1])
 #     plots(type,a,b,coefficients)
 
-options = {
-    1: "f(x) wielomian",
-    2: "g(x) wykładnicza",
-    3: "h(x) trygonmetryczna",
-    4: "f(g(x)) złożona",
-    5: "h(f(x)) złożona "
-}
-print("====================")
-print("Podaj type funkcji")
-for i in options:
-    print(f"{i}. {options[i]}")
-functionType = int(input("Wybierz: "))
-print("====================")
-print("Podaj przedziały")
-a = float(input("Podaj a: "))
-b = float(input("Podaj b: "))
-print("====================")
-if functionType == 1:
-    # wielomian
-    # a,b,wspolczynniki
-
-
+# options = {
+#     1: "f(x) wielomian",
+#     2: "g(x) wykładnicza",
+#     3: "h(x) trygonmetryczna",
+#     4: "f(g(x)) złożona",
+#     5: "h(f(x)) złożona "
+# }
+# print("====================")
+# print("Podaj type funkcji")
+# for i in options:
+#     print(f"{i}. {options[i]}")
+# functionType = int(input("Wybierz: "))
+# print("====================")
+# print("Podaj przedziały")
+# a = float(input("Podaj a: "))
+# b = float(input("Podaj b: "))
+# print("====================")
+# if functionType == 1:
+#     # wielomian
+#     # a,b,wspolczynniki
+#
+#
