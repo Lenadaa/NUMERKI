@@ -49,6 +49,13 @@ def trigonometric_derivative(trig_type, x):
     else:
         raise TypeError("Funkcja trygonometryczna nie istnieje")
 
+def composistion(x,f,g,count):
+    result = x
+    for i in range(count):
+        result = g(result)
+    return f(result)
+
+
 def validation_bisection(result_x0, result_a, a, b, x0):
     if result_x0 == 0:
         return x0, x0
@@ -57,8 +64,20 @@ def validation_bisection(result_x0, result_a, a, b, x0):
     else:
         return x0, b
 
-def polynomial(coefficient, x):
-    result = coefficient[0]
-    for i in range(1, len(coefficient)):
-        result = result * x + coefficient[i]
-    return result
+def function_type(type,coefficients,x):
+    if type == 1:
+        result = polynomial_horner(coefficients, x)
+        return result
+    elif type == 2:
+        result = exponential(coefficients, x)
+        return result
+    elif type == 3:
+        result = trigonometric(coefficients, x)
+        return result
+def function_type(type,x,f,g,count):
+    if type == 4:
+        result = composistion(x,f,g,count)
+        return result
+    else:
+        print("Nie istnieje taki typ")
+        return None
