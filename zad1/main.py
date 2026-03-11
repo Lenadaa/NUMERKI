@@ -29,7 +29,10 @@ def plots(type,a,b,coeff,bisectionValues,secantValues):
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
-
+    elif type == 4:
+        # Obliczamy y dla funkcji złożonej (coeff to tutaj nasza lista operations)
+        y_range = [functions.complexFunction(coeff, val) for val in x_range]
+        ax.plot(x_range, y_range, label="f(x) Złożona", color='green')
     ax.set_title("Wizualizacja funkcji")
     ax.legend(handles=[colorBlue, colorRed])
     plt.grid(True)
@@ -40,8 +43,7 @@ def selectStop(stop,a,b,type,coefficients,stopAccuracy):
     if stop == 1:
         stopAccuracy = int(stopAccuracy)
         bisectionValues = bisection_it(a,b,type,coefficients,stopAccuracy)
-        sceantValues = secant_it(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues, sceantValues
+        return bisectionValues
     elif stop == 2:
         bisectionValues = bisection_stop(a,b,type,coefficients,stopAccuracy)
         sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
@@ -59,13 +61,12 @@ def stopMethod():
     stopType = int(input("Podaj typ warunek stopu:"))
     stopAccuracy = float(input("Podaj warunek stopu: "))
     return stopType, stopAccuracy
-def basicFunctions():
+def basicFunctions(a,b):
     options = {
         1: "f(x) - Wielomian",
         2: "g(x) - Wykładnicza",
         3: "h(x) - Trygonometryczna",
     }
-    functionType = 0
     print("=========== Wybierz funkcje =========== ")
     for option in options:
         print(f"{option}: {options[option]}")
@@ -106,29 +107,25 @@ def basicFunctions():
             return functionType, trigType
         except ValueError:
             raise ValueError("[BŁĄD] Wprowadz cyfre!")
-    # --- PRZYKŁAD UŻYCIA ---
 
-    # Chcemy obliczyć: f(g(h(x))) gdzie:
     # h(x) = sin(x)              (Typ 3, coeff 1)
     # g(x) = 2x^2 + 10           (Typ 1, coeff [2, 0, 10])
     # f(x) = 2^x * 1 + 0         (Typ 2, coeff [2, 1, 0])
 
-    moje_operacje = [
-        (3, 1),  # Najpierw Sinus
-        (1, [2, 0, 10]),  # Potem Wielomian
-        (2, [2, 1, 0])  # Na końcu Wykładnicza
-    ]
-def complexFunctions():
+def complexFunctions(a,b):
     depth = int(input("Podaj stopień złożenia funkcji"))
     operations = []
     for i in range(depth):
         functionType, coeff = basicFunctions()
         operations.append((functionType,coeff))
-    print(functions.complexFunction(operations,5))
+    a, b = limits()
 
+    stopType, stopAccuracy = stopMethod()
+    bisectionValues = selectStop(stopType, a, b, 4, operations, 6)
+    return bisectionValues
 
-
-
+print("======== Podaj granice ========")
+a, b = limits()
 print("======== Rodzaj funkcji ========")
 print ("1. Podstawowe funkcje \n2. Złożone funkcje")
 try:
@@ -136,7 +133,10 @@ try:
 except ValueError:
     raise ValueError("[BŁĄD] Wprowadz cyfre!")
 if type == 1:
-    basicFunctions()
+    functionType,coeff = basicFunctions(a,b)
+    test = bisection_it(a,b,functionType,coeff,5)
+    print(test)
 elif type == 2:
-    complexFunctions()
+    bisectionValues = complexFunctions(a,b)
+    print(bisectionValues)
 else: print("Nie istnieje taki typ")

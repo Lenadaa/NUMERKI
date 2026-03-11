@@ -1,6 +1,6 @@
 from functions import validation_bisection, polynomial_horner, exponential, trigonometric,complexFunction
 
-def bisection_it (a, b, type, coefficients, it,operations):
+def bisection_it (a, b, type, coefficients, it):
 
     result_a, result_b, result_x0, x0  = 0, 0, 0, 0
 
@@ -14,8 +14,8 @@ def bisection_it (a, b, type, coefficients, it,operations):
         result_a = trigonometric(coefficients[0], a)
         result_b = trigonometric(coefficients[0], b)
     if type == 4:
-        result_a = complexFunction(operations, a)
-        result_b = complexFunction(operations, b)
+        result_a = complexFunction(coefficients, a)
+        result_b = complexFunction(coefficients, b)
     if result_a * result_b >= 0:
         raise TypeError("Funkcja w podanym przedziale nie zmienia znaku, miejsce zerowe nie istnieje")
 
@@ -34,7 +34,7 @@ def bisection_it (a, b, type, coefficients, it,operations):
 
     return x0, it
 
-def bisection_stop (a, b, type, coefficients, eps,operations):
+def bisection_stop (a, b, type, coefficients, eps):
 
     it = 0
 
@@ -52,8 +52,8 @@ def bisection_stop (a, b, type, coefficients, eps,operations):
         result_a = trigonometric(coefficients[0], a)
         result_b = trigonometric(coefficients[0], b)
     if type == 4:
-        result_a = complexFunction(operations, a)
-        result_b = complexFunction(operations, b)
+        result_a = complexFunction(coefficients, a)
+        result_b = complexFunction(coefficients, b)
     if result_a * result_b >= 0:
         raise TypeError("Funkcja w podanym przedziale nie zmienia znaku, miejsce zerowe nie istnieje")
 

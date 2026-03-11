@@ -45,7 +45,7 @@ def trigonometric_derivative(trig_type, x):
     elif trig_type == 2:
         return -1 * math.sin(x)
     elif trig_type == 3:
-        return math.cos(x) * math.cos(x)
+        return 1 / (math.cos(x) * math.cos(x))
     else:
         raise TypeError("Funkcja trygonometryczna nie istnieje")
 
@@ -71,7 +71,6 @@ def function_type(type,coefficients,x):
             trig_type = int(coefficients)
         result = trigonometric(trig_type, x)
         return result
-
 
 def complexFunction(operations, x):
     result = x
