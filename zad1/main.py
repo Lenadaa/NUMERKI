@@ -32,6 +32,7 @@ def plots(type,a,b,coeff,bisectionValues,secantValues):
     elif type == 4:
         # Obliczamy y dla funkcji złożonej (coeff to tutaj nasza lista operations)
         y_range = [functions.complexFunction(coeff, val) for val in x_range]
+        ax.scatter(bisectionValues[0], 0, color='blue')
         ax.plot(x_range, y_range, label="f(x) Złożona", color='green')
     ax.set_title("Wizualizacja funkcji")
     ax.legend(handles=[colorBlue, colorRed])
@@ -46,8 +47,8 @@ def selectStop(stop,a,b,type,coefficients,stopAccuracy):
         return bisectionValues
     elif stop == 2:
         bisectionValues = bisection_stop(a,b,type,coefficients,stopAccuracy)
-        sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues, sceantValues
+        # sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
+        return bisectionValues
     else:
         raise ValueError("[BŁĄD] Nie istnieje taki warunek stopu!")
 def limits():
@@ -116,13 +117,12 @@ def complexFunctions(a,b):
     depth = int(input("Podaj stopień złożenia funkcji"))
     operations = []
     for i in range(depth):
-        functionType, coeff = basicFunctions()
+        functionType, coeff = basicFunctions(a,b)
         operations.append((functionType,coeff))
-    a, b = limits()
 
     stopType, stopAccuracy = stopMethod()
     bisectionValues = selectStop(stopType, a, b, 4, operations, 6)
-    return bisectionValues
+    return bisectionValues,operations
 
 print("======== Podaj granice ========")
 a, b = limits()
@@ -135,8 +135,10 @@ except ValueError:
 if type == 1:
     functionType,coeff = basicFunctions(a,b)
     test = bisection_it(a,b,functionType,coeff,5)
+    plots(functionType,a,b,coeff,test,2)
     print(test)
 elif type == 2:
-    bisectionValues = complexFunctions(a,b)
+    bisectionValues,operations = complexFunctions(a,b)
+    plots(4,a,b,operations,bisectionValues,2)
     print(bisectionValues)
 else: print("Nie istnieje taki typ")

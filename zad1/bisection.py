@@ -70,7 +70,7 @@ def bisection_stop (a, b, type, coefficients, eps):
         if type == 3:
             result_x0 = trigonometric(coefficients[0], x0)
         if type == 4:
-            result_x0 = complexFunction(operations, x0)
+            result_x0 = complexFunction(coefficients, x0)
 
         if abs(result_x0) < eps:
             return x0, it
