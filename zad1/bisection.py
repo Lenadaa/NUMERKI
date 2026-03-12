@@ -29,6 +29,8 @@ def bisection_it (a, b, type, coefficients, it):
             result_x0 = exponential(coefficients, x0)
         if type == 3:
             result_x0 = trigonometric(coefficients[0], x0)
+        if type == 4:
+            result_x0 = complexFunction(coefficients, x0)
 
         a, b = validation_bisection(result_x0, result_a, a, b, x0)
 

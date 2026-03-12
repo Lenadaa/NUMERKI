@@ -1,5 +1,4 @@
-from functions import polynomial_derivative, polynomial_horner, exponential, exponential_derivative, trigonometric, trigonometric_derivative
-
+from functions import polynomial_derivative, polynomial_horner, exponential, exponential_derivative, trigonometric, trigonometric_derivative,complexFunction,complexFunction_derivative
 def secant_it(a, b, type, coefficients, it):
     result_derivative_a, result_derivative_b, result_a, result_b = 0, 0, 0, 0
 
@@ -24,6 +23,12 @@ def secant_it(a, b, type, coefficients, it):
 
         result_derivative_a = trigonometric_derivative(coefficients[0], a)
         result_derivative_b = trigonometric_derivative(coefficients[0], b)
+    if type == 4:
+        result_a = complexFunction(coefficients, a)
+        result_b = complexFunction(coefficients, b)
+
+        result_derivative_a = complexFunction_derivative(coefficients, a)
+        result_derivative_b = complexFunction_derivative(coefficients, b)
 
     if result_derivative_a == 0 or result_derivative_b == 0:
         raise TypeError("Pochodna równa zero, miejsce zerowe nie istnieje")
@@ -44,7 +49,9 @@ def secant_it(a, b, type, coefficients, it):
         if type == 3:
             result_a = trigonometric(coefficients[0], a)
             result_b = trigonometric(coefficients[0], b)
-
+        if type == 4:
+            result_a = complexFunction(coefficients, a)
+            result_b = complexFunction(coefficients, b)
         if result_a - result_b == 0:
             return a, it
 
@@ -81,7 +88,12 @@ def secant_stop(a, b, type, coefficients, eps):
 
         result_derivative_a = trigonometric_derivative(coefficients[0], a)
         result_derivative_b = trigonometric_derivative(coefficients[0], b)
+    if type == 4:
+        result_a = complexFunction(coefficients, a)
+        result_b = complexFunction(coefficients, b)
 
+        result_derivative_a = complexFunction_derivative(coefficients, a)
+        result_derivative_b = complexFunction_derivative(coefficients, b)
     if result_derivative_a == 0 or result_derivative_b == 0:
         raise TypeError("Pochodna równa zero, miejsce zerowe nie istnieje")
 
@@ -103,7 +115,9 @@ def secant_stop(a, b, type, coefficients, eps):
         if type == 3:
             result_a = trigonometric(coefficients[0], a)
             result_b = trigonometric(coefficients[0], b)
-
+        if type == 4:
+            result_a = complexFunction(coefficients, a)
+            result_b = complexFunction(coefficients, b)
         if result_a - result_b == 0:
             return a, it
 

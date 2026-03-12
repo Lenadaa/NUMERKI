@@ -24,7 +24,7 @@ def plots(type,a,b,coeff,bisectionValues,secantValues):
         ax.scatter(secantValues[0], 0, color='red')
         ax.axhline(0, color='black', linewidth=0.8, linestyle='--')
     elif type == 3:
-        y_range = [functions.trigonometric(coeff,x) for x in x_range]
+        y_range = [functions.trigonometric(coeff[0],x) for x in x_range]
         ax.plot(x_range, y_range, label="h(x) Trygonometryczna")
         ax.scatter(bisectionValues[0], 0, color='blue')
         ax.scatter(secantValues[0], 0, color='red')
@@ -33,6 +33,7 @@ def plots(type,a,b,coeff,bisectionValues,secantValues):
         # Obliczamy y dla funkcji złożonej (coeff to tutaj nasza lista operations)
         y_range = [functions.complexFunction(coeff, val) for val in x_range]
         ax.scatter(bisectionValues[0], 0, color='blue')
+        ax.scatter(secantValues[0],0,color="red")
         ax.plot(x_range, y_range, label="f(x) Złożona", color='green')
     ax.set_title("Wizualizacja funkcji")
     ax.legend(handles=[colorBlue, colorRed])
@@ -44,11 +45,12 @@ def selectStop(stop,a,b,type,coefficients,stopAccuracy):
     if stop == 1:
         stopAccuracy = int(stopAccuracy)
         bisectionValues = bisection_it(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues
+        sceantValues = secant_it(a,b,type,coefficients,stopAccuracy)
+        return bisectionValues,sceantValues
     elif stop == 2:
         bisectionValues = bisection_stop(a,b,type,coefficients,stopAccuracy)
-        # sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues
+        sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
+        return bisectionValues,sceantValues
     else:
         raise ValueError("[BŁĄD] Nie istnieje taki warunek stopu!")
 def limits():
@@ -62,6 +64,13 @@ def stopMethod():
     stopType = int(input("Podaj typ warunek stopu:"))
     stopAccuracy = float(input("Podaj warunek stopu: "))
     return stopType, stopAccuracy
+def printResults(bisection,sceant):
+    print("========= Wyniki metody bisekcji =========")
+    print(f"Miejsce zerowe {bisection[0]}")
+    print(f"Liczba iteracji {bisection[1]}")
+    print("========= Wyniki metody siecznych =========")
+    print(f"Miejsce zerowe {sceant[0]}")
+    print(f"Liczba iteracji {sceant[1]}")
 def basicFunctions(a,b):
     options = {
         1: "f(x) - Wielomian",
@@ -119,10 +128,9 @@ def complexFunctions(a,b):
     for i in range(depth):
         functionType, coeff = basicFunctions(a,b)
         operations.append((functionType,coeff))
-
     stopType, stopAccuracy = stopMethod()
-    bisectionValues = selectStop(stopType, a, b, 4, operations, 6)
-    return bisectionValues,operations
+    bisectionValues,secantValues = selectStop(stopType, a, b, 4, operations, stopAccuracy)
+    return bisectionValues,secantValues,operations
 
 print("======== Podaj granice ========")
 a, b = limits()
@@ -134,11 +142,12 @@ except ValueError:
     raise ValueError("[BŁĄD] Wprowadz cyfre!")
 if type == 1:
     functionType,coeff = basicFunctions(a,b)
-    test = bisection_it(a,b,functionType,coeff,5)
-    plots(functionType,a,b,coeff,test,2)
-    print(test)
+    stopType, stopAccuracy = stopMethod()
+    bisectionValues,secantValues = selectStop(stopType, a, b, functionType, coeff,stopAccuracy)
+    printResults(bisectionValues,secantValues)
+    plots(functionType,a,b,coeff,bisectionValues,secantValues)
 elif type == 2:
-    bisectionValues,operations = complexFunctions(a,b)
-    plots(4,a,b,operations,bisectionValues,2)
-    print(bisectionValues)
+    bisectionValues, secantValues,operations = complexFunctions(a,b)
+    printResults(bisectionValues,secantValues)
+    plots(4,a,b,operations,bisectionValues,secantValues)
 else: print("Nie istnieje taki typ")

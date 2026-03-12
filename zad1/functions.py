@@ -1,5 +1,18 @@
 import math
 
+def derivative_type(type, coefficients, x):
+    if type == 1:
+        deriv = polynomial_derivative(coefficients)
+        if not deriv:
+            return 0.0
+        return polynomial_horner(deriv, x)
+    elif type == 2:
+        return exponential_derivative(coefficients,x)
+    elif type == 3:
+        return trigonometric_derivative(coefficients[0],x)
+    else:
+        return None
+
 def polynomial_horner(coefficients, x):
     result = coefficients[0]
     for i in range(1, len(coefficients)):
@@ -77,3 +90,17 @@ def complexFunction(operations, x):
     for f_type, coeffs in operations:
         result = function_type(f_type, coeffs, result)
     return result
+def complexFunction_derivative(operations, x):
+    total = 1.0
+    values = [x]
+    for f_type, coeffs in operations:
+        x = function_type(f_type, coeffs, x)
+        values.append(x)
+
+    for i in range(len(operations)):
+        f_type, coeffs = operations[i]
+        point = values[i]
+        derv = derivative_type(f_type, coeffs, point)
+
+        total *= derv
+    return total
