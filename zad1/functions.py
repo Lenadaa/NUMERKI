@@ -33,9 +33,8 @@ def polynomial_derivative(coefficients):
 
 def exponential(coefficients, x):
     a = coefficients[0]
-    c = coefficients[1]
-    d = coefficients[2]
-    result = a ** x * c + d
+    d = coefficients[1]
+    result = a ** x + d
     return result
 
 def exponential_derivative(coefficients, x):

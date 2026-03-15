@@ -93,7 +93,7 @@ def basicFunctions(a,b):
         try:
             coefficiants = []
             print("========== Podaj współczynniki ==========")
-            for i in range(3):
+            for i in range(2):
                 userInput = float(input(f"Podaj współczynnik {i + 1}: "))
                 coefficiants.append(userInput)
             return functionType, coefficiants
@@ -122,22 +122,62 @@ def complexFunctions(a,b):
     bisectionValues,secantValues = selectStop(stopType, a, b, 4, operations, stopAccuracy)
     return bisectionValues,secantValues,operations
 
-print("======== Podaj granice ========")
-a, b = limits()
-print("======== Rodzaj funkcji ========")
-print ("1. Podstawowe funkcje \n2. Złożone funkcje")
-try:
-    type = int(input("Podaj typ funkcji: "))
-except ValueError:
-    raise ValueError("[BŁĄD] Wprowadz cyfre!")
-if type == 1:
-    functionType,coeff = basicFunctions(a,b)
-    stopType, stopAccuracy = stopMethod()
-    bisectionValues,secantValues = selectStop(stopType, a, b, functionType, coeff,stopAccuracy)
-    printResults(bisectionValues,secantValues)
-    plots(functionType,a,b,coeff,bisectionValues,secantValues)
-elif type == 2:
-    bisectionValues, secantValues,operations = complexFunctions(a,b)
-    printResults(bisectionValues,secantValues)
-    plots(4,a,b,operations,bisectionValues,secantValues)
-else: print("Nie istnieje taki typ")
+# print("======== Podaj granice ========")
+# a, b = limits()
+# print("======== Rodzaj funkcji ========")
+# print ("1. Podstawowe funkcje \n2. Złożone funkcje")
+# try:
+#     type = int(input("Podaj typ funkcji: "))
+# except ValueError:
+#     raise ValueError("[BŁĄD] Wprowadz cyfre!")
+# if type == 1:
+#     functionType,coeff = basicFunctions(a,b)
+#     stopType, stopAccuracy = stopMethod()
+#     bisectionValues,secantValues = selectStop(stopType, a, b, functionType, coeff,stopAccuracy)
+#     printResults(bisectionValues,secantValues)
+#     plots(functionType,a,b,coeff,bisectionValues,secantValues)
+# elif type == 2:
+#     bisectionValues, secantValues,operations = complexFunctions(a,b)
+#     printResults(bisectionValues,secantValues)
+#     plots(4,a,b,operations,bisectionValues,secantValues)
+# else: print("Nie istnieje taki typ")
+
+#Sprawko
+# f(x)=x^3+x-2
+stopType = 2
+stopAccuracy = 0.000001
+
+# bi = bisection(0,5,1,[1,0,1,-2],stopType,stopAccuracy)
+# sc = secant(0,5,1,[1,0,1,-2],stopType,stopAccuracy)
+# printResults(bi,sc)
+# plots(1,0,5,[1,0,1,-2],bi,sc)
+
+# g(x)=x^3+8
+
+# coeff = [1,0,0,8]
+# bi = bisection(-3,1,1,coeff,stopType,stopAccuracy)
+# sc = secant(-3,1,1,coeff,stopType,stopAccuracy)
+# printResults(bi,sc)
+# plots(1,-3,1,coeff,bi,sc)
+
+# h(x) = 2^x-4
+
+# coeff = [2,-4]
+# bi = bisection(0,10,2,coeff,stopType,stopAccuracy)
+# sc = secant(0,10,2,coeff,stopType,stopAccuracy)
+# printResults(bi,sc)
+# plots(2,0,10,coeff,bi,sc)
+
+#i(x) = 3^x-9
+# coeff = [3,-9]
+# bi = bisection(1,6,2,coeff,stopType,stopAccuracy)
+# sc = secant(1,6,2,coeff,stopType,stopAccuracy)
+# printResults(bi,sc)
+# plots(2,1,6,coeff,bi,sc)
+
+#j(x)=cos(x)
+coeff = [2]
+bi = bisection(-2,1,3,[2],stopType,stopAccuracy)
+si = secant(-2,1,3,[2],stopType,stopAccuracy)
+printResults(bi,si)
+plots(3,-2,1,[2],bi,si)

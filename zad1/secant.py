@@ -32,15 +32,17 @@ def secant(a,b,type,coefficients,typeStop,stopAccuracy):
             result_a = function_type(type, coefficients, a)
             result_b = function_type(type, coefficients, b)
 
-            if result_a - result_b == 0:
-                return a, it
+            if result_b - result_a == 0:
+                return b, it
 
             x = result_b * (b - a)
             y = result_b - result_a
             c = b - x / y
+
             a = b
             b = c
 
+            result_b = function_type(type, coefficients, b)
             if abs(result_b) < stopAccuracy:
                 return b, it
 
