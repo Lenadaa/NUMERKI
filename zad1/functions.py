@@ -10,6 +10,8 @@ def derivative_type(type, coefficients, x):
         return exponential_derivative(coefficients,x)
     elif type == 3:
         return trigonometric_derivative(coefficients[0],x)
+    elif type == 4:
+        return complexFunction_derivative(coefficients,x)
     else:
         return None
 
@@ -83,6 +85,9 @@ def function_type(type,coefficients,x):
         else:
             trig_type = int(coefficients)
         result = trigonometric(trig_type, x)
+        return result
+    elif type == 4:
+        result = complexFunction(coefficients,x)
         return result
 
 def complexFunction(operations, x):

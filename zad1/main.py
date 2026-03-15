@@ -2,8 +2,8 @@ import matplotlib.patches as patches
 import matplotlib.pyplot as plt
 import numpy as np
 
-from bisection import bisection_it, bisection_stop
-from secant import secant_it, secant_stop
+from bisection import bisection
+from secant import secant
 import functions
 
 def plots(type,a,b,coeff,bisectionValues,secantValues):
@@ -42,20 +42,14 @@ def plots(type,a,b,coeff,bisectionValues,secantValues):
 
 
 def selectStop(stop,a,b,type,coefficients,stopAccuracy):
-    if stop == 1:
-        stopAccuracy = int(stopAccuracy)
-        bisectionValues = bisection_it(a,b,type,coefficients,stopAccuracy)
-        sceantValues = secant_it(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues,sceantValues
-    elif stop == 2:
-        bisectionValues = bisection_stop(a,b,type,coefficients,stopAccuracy)
-        sceantValues = secant_stop(a,b,type,coefficients,stopAccuracy)
-        return bisectionValues,sceantValues
-    else:
-        raise ValueError("[BŁĄD] Nie istnieje taki warunek stopu!")
+    bisectionValues = bisection(a,b,type,coefficients,stop,stopAccuracy)
+    sceantValues = secant(a,b,type,coefficients,stop,stopAccuracy)
+    return bisectionValues,sceantValues
 def limits():
     a = float(input("Podaj a: "))
     b = float(input("Podaj b: "))
+    if(a>b):
+        raise ValueError("[BŁĄD] Wartość (a) musi być mniejsza od (b)")
     return a,b
 def stopMethod():
     print("===========  Warunki stopu =========== ")
@@ -117,10 +111,6 @@ def basicFunctions(a,b):
             return functionType, trigType
         except ValueError:
             raise ValueError("[BŁĄD] Wprowadz cyfre!")
-
-    # h(x) = sin(x)              (Typ 3, coeff 1)
-    # g(x) = 2x^2 + 10           (Typ 1, coeff [2, 0, 10])
-    # f(x) = 2^x * 1 + 0         (Typ 2, coeff [2, 1, 0])
 
 def complexFunctions(a,b):
     depth = int(input("Podaj stopień złożenia funkcji"))
