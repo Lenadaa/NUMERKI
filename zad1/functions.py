@@ -79,7 +79,7 @@ def function_type(type,coefficients,x):
         result = exponential(coefficients, x)
         return result
     elif type == 3:
-        if isinstance(coefficients,list): #Tutaj to jest do sprawdzanie dlaczego tak działa
+        if isinstance(coefficients,list): 
             trig_type = int(coefficients[0])
         else:
             trig_type = int(coefficients)
