@@ -1,10 +1,9 @@
-from gaussian_elimination import gaussian_elimination
+from gaussian_elimination import gaussian_elimination, print_matrix, append_matrix
+from input import matrix
 
-matrix = [
-    [2.0, 5.0, 7.0, 33.0],
-    [3.0, 3.0, 3.1, 12.0],
-    [1.0, 2.0, 1.0, 8.0]
-]
-n = 3
+A, b = matrix("matrix.txt")
+Ab = append_matrix(A, b)
 
-gaussian_elimination(matrix, n)
+print_matrix(A)
+print_matrix(b)
+print_matrix(Ab)
