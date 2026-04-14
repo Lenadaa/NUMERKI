@@ -1,7 +1,6 @@
-import glob
-
 from gaussian_elimination import gaussian_elimination
-from input import read
+from gauss_seidel_method import gauss_seidel_method
+from display import *
 
 def main():
     files = print_all_equations()
@@ -13,75 +12,74 @@ def main():
 
         try:
             choice = int(choice)
-
             if 1 <= choice <= len(files):
                 filename = files[choice - 1]
-                A, b = read(filename)
-
-                try:
-                    x = gaussian_elimination(A, b)
-                    x_len = len(x)
-                    print("Rozwiązanie:")
-                    for i in range(x_len):
-                        print(f"x{i + 1} = {x[i]:7g}")
-                except ValueError as e:
-                    print(f"Rozwiązanie: {e}")
+                A, b = read_matrix_from_file(filename)
+                menu(filename, A, b)
             else:
-                print("Podany przykład nie istnieje.")
+                print("Wybrany przykład nie istnieje.")
         except ValueError:
-            print("Nieprawidłowy znak. Wpisz numer zadania lub 'q', aby wyjść.")
+            print("Błąd: podaj liczbę. Wybierz numer zadania lub wpisz 'q', aby wyjść: ")
+
+def menu(filename, A, b):
+    while True:
+        print(f"Wybrany plik z równaniem: {filename}")
+        print("1. Metoda eliminacji Gaussa")
+        print("2. Metoda iteracyjna Gaussa-Seidla")
+
+        method = input("Wybierz metodę lub wpisz 'q', aby wrócić do wyboru zadania: ")
+
+        if method == 'q':
+            return
+
+        try:
+            method = int(method)
+
+            if method == 1:
+                run_gaussian_elimination(A, b)
+            elif method == 2:
+                run_gauss_seidel(A, b)
+            else:
+                print("Wybrana opcja nie istnieje.")
+        except ValueError:
+            print("Błąd: podaj liczbę.")
+
+def run_gaussian_elimination(A, b):
+    try:
+        x = gaussian_elimination(A, b)
+        print("Rozwiązanie:")
+        print_result(x)
+    except ValueError as e:
+        print(f"Rozwiązanie: {e}")
 
 
-def print_equation(a, b):
-    n = len(a)
-    mid = n // 2
+def run_gauss_seidel(A, b):
+    while True:
+        print("Wybierz warunek stopu:")
+        print("1. Ilość iteracji")
+        print("2. Dokładność (epsilon)")
 
-    for i in range(n):
+        stop_type = input("Wybierz warunek stopu lub wpisz 'q', aby wrócić do wyboru metody: ")
 
-        row = []
-        for j in a[i]:
-            number_in_row = f"{j:7g}"
-            row.append(number_in_row)
-        a_row = "  ".join(row)
+        if stop_type == 'q':
+            return
 
-        if i == mid:
-            sign = " = "
-        else:
-            sign = "   "
+        try:
+            stop_type = int(stop_type)
+            if stop_type == 1:
+                stop_accuracy = int(input("Podaj liczbę iteracji: "))
+            elif stop_type == 2:
+                stop_accuracy = float(input("Podaj wartość epsilon: "))
+            else:
+                print("Wybrana opcja nie istnieje.")
+                return
 
-        b_row = f"{b[i]:7g}"
+            x, iterations = gauss_seidel_method(A, b, stop_type, stop_accuracy)
+            print(f"Szukanie rozwiązania zakończono po {iterations} iteracjach.")
+            print_result(x)
 
-        if n == 1:
-            left, right = "[", "]"
-        elif i == 0:
-            left, right = "⎡", "⎤"
-        elif i == n - 1:
-            left, right = "⎣", "⎦"
-        else:
-            left, right = "⎢", "⎥"
-
-        print(f"{left} {a_row} {right}  {left} x{i + 1} {right}{sign}{left} {b_row} {right}")
-
-def print_all_equations():
-    files = glob.glob("*.txt")
-    files.sort()
-
-    i = 0
-
-    for filename in files:
-        i += 1
-
-        print("-" * 50)
-
-        print(f"{i}. Przykład z pliku: {filename}\n")
-
-        A, b = read(filename)
-
-        print_equation(A, b)
-
-    print("-" * 50)
-
-    return files
+        except ValueError:
+            print("Błąd: podaj liczbę.")
 
 if __name__ == "__main__":
     main()
