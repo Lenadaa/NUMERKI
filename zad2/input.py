@@ -1,4 +1,4 @@
-def matrix(file_name):
+def read(file_name):
     data = []
     with open(file_name) as f:
         for line in f:
