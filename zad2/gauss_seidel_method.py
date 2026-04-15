@@ -1,31 +1,43 @@
-from matrix_operations import append_matrix
+from matrix_operations import append_matrix, compute_distance, find_max
+from zad2.matrix_operations import swap_rows
+
 MAX_ITERATIONS = 300
 
-def gauss_seidel_method(A, b, stop_type, stop_accuracy):
+def gauss_seidel_method(A, b, stop_type, stop_accuracy, metric_type):
     n = len(A)
     x = [0.0] * n  # wektor początkowy
     matrix = append_matrix(A, b)
 
+    for k in range(n):
+        max_id = find_max(matrix, k)
+        if max_id != k:
+            swap_rows(matrix, max_id, k)
+
+        if abs(matrix[k][k]) < 0:
+            raise ValueError("Macierz posiada zera na przekątnej.")
+
     #iteracja
     if stop_type == 1:
-        for iteration in range(stop_accuracy):
+        for iteration in range(1, stop_accuracy + 1):
+            x_previous = x.copy()
             for i in range(n):
                 total = 0
                 for j in range(n):
                     if j != i:
                         total += matrix[i][j] * x[j]
                 x[i] = (matrix[i][n] - total) / matrix[i][i]
-        return x, stop_accuracy
+
+            error = compute_distance(x, x_previous, metric_type)
+
 
     #epsilon
     if stop_type == 2:
+        epsilon = float(stop_accuracy)
         iteration = 0
         while True:
             iteration += 1
             x_previous = x.copy()
 
-            error = 0.0
-
             for i in range(n):
                 total = 0
                 for j in range(n):
@@ -33,13 +45,14 @@ def gauss_seidel_method(A, b, stop_type, stop_accuracy):
                         total += matrix[i][j] * x[j]
                 x[i] = (matrix[i][n] - total) / matrix[i][i]
 
-            for i in range(n):
-                curr_diff = abs(x[i] - x_previous[i])
-                if curr_diff > error:
-                    error = curr_diff
+            error = compute_distance(x, x_previous, metric_type)
+
+
 
             if error < stop_accuracy:
-                return x, iteration
+                break
 
             if iteration >= MAX_ITERATIONS:
-                return x, iteration
+                break
+
+    return x, iteration, error

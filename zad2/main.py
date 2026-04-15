@@ -74,10 +74,38 @@ def run_gauss_seidel(A, b):
                 print("Wybrana opcja nie istnieje.")
                 return
 
-            x, iterations = gauss_seidel_method(A, b, stop_type, stop_accuracy)
+            metric_type = choose_metric()
+
+            x, iterations, error = gauss_seidel_method(A, b, stop_type, stop_accuracy, metric_type)
             print(f"Szukanie rozwiązania zakończono po {iterations} iteracjach.")
             print_result(x)
+            print_error(error)
 
+        except ValueError:
+            print("Błąd: podaj liczbę.")
+
+def choose_metric():
+    while True:
+        print("Wybierz metrykę:")
+        print("1. Euklidesowa")
+        print("2. Manhattan")
+        print("3. Maksimum")
+
+        metric_type = input("Wybierz metrykę lub wpisz 'q', aby wrócić do wyboru warunku stopu: ")
+
+        if metric_type == 'q':
+            return
+
+        try:
+            metric_type = int(metric_type)
+            if metric_type == 1:
+                return 1
+            elif metric_type == 2:
+                return 2
+            elif metric_type == 3:
+                return 3
+            else:
+                print("Wybrana opcja nie istnieje.")
         except ValueError:
             print("Błąd: podaj liczbę.")
 

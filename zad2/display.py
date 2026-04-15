@@ -1,6 +1,7 @@
 import glob
 
 from file_reader import read_matrix_from_file
+from matrix_operations import check_diagonal_dominance
 
 def print_equation(a, b):
     n = len(a)
@@ -32,6 +33,13 @@ def print_equation(a, b):
 
         print(f"{left} {a_row} {right}  {left} x{i + 1} {right}{sign}{left} {b_row} {right}")
 
+    if check_diagonal_dominance(a):
+        diag_dom = "tak"
+    else:
+        diag_dom = "nie"
+
+    print("\nSpełnia warunek dominacji przekątnej (gwarancja zbieżności dla metody iteracyjnej Gaussa-Seidla): " + diag_dom)
+
 def print_all_equations():
     files = glob.glob("*.txt")
     files.sort()
@@ -57,3 +65,6 @@ def print_result(x):
     n = len(x)
     for i in range(n):
         print(f"x{i + 1} = {x[i]:7g}")
+
+def print_error(error):
+    print("Błąd wyniku: " + str(error))
