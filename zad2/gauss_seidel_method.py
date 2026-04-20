@@ -1,7 +1,7 @@
 from matrix_operations import append_matrix, compute_distance, find_max
 from zad2.matrix_operations import swap_rows
 
-MAX_ITERATIONS = 300
+MAX_ITERATIONS = 50
 
 def gauss_seidel_method(A, b, stop_type, stop_accuracy, metric_type):
     n = len(A)

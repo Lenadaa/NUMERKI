@@ -2,7 +2,7 @@
 def append_matrix(A, b):
     matrix = []
     for i in range(len(A)):
-        matrix.append(A[i][:] + [b[i]]) # A[i][:] tworzy płytką kopię listy ?
+        matrix.append(A[i][:] + [b[i]])
     return matrix
 
 #zwraca największą wartość w kolumnie k
