@@ -1,8 +1,11 @@
 from matrix_operations import append_matrix, find_max, swap_rows, eliminate_row, back_solve
 
 def gaussian_elimination(A, b):
+    #rozmiar macierzy
     n = len(A)
+    #laczy macierz
     matrix = append_matrix(A, b)
+    #epsilon
     eps = 1e-10
 
     for k in range(n):
