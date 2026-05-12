@@ -27,6 +27,10 @@ def test1():
     def linear_f(x): return linear_function(x, 2, 3)
     test([-5.2, -1.0, 4.8], (-6, 6), [linear_f], "Test 1: f(x) = 2x + 3")
 
+def test1_2():
+    def linear_f(x): return linear_function(x, 2, 3)
+    test([-5.8, -4.1, -2.5, -1.0, 0.5, 1.2, 2.8, 3.5, 4.4, 5.1, 5.9], (-6, 6), [linear_f], "Test 1: f(x) = 2x + 3")
+
 def test2():
     def parabola_f(x): return polynomial_function(x, [1, 0, -4])
     test([-3.5, -0.5, 1.2, 3.8], (-4, 4), [parabola_f], "Test 2: f(x) = x^2 - 4")
@@ -37,7 +41,11 @@ def test3():
 
 def test4():
     def abs_f(x): return absolute_value_function(x)
-    test([-4.5, -1.2, 0.0, 0.8, 4.2], (-5, 5), [abs_f], "Test 4: f(x) = |x|")
+    test([-1, -0.3, 0.0, 0.4, 1], (-1, 1), [abs_f], "Test 4: f(x) = |x|")
+
+def test4_2():
+    def abs_f(x): return absolute_value_function(x)
+    test([-1, -0.75, -0.4, -0.15, -0.05, 0.0, 0.1, 0.3, 0.6, 0.85, 1], (-1, 1), [abs_f], "Test 4: f(x) = |x|")
 
 def test5():
     def sin_f(x): return trigonometric_function(x, 'sin')
@@ -52,6 +60,10 @@ def test6():
 def test7():
     def cubic_f(x): return polynomial_function(x, [1, 0, -3, 0])
     test([-2.8, -0.8, 0.2, 2.5], (-3, 3), [cubic_f], "Test 7: f(x) = x^3 - 3x")
+
+def test7_2():
+    def cubic_f(x): return polynomial_function(x, [1, 0, -3, 0])
+    test([-2, 0.2], (-3, 3), [cubic_f], "Test 7: f(x) = x^3 - 3x")
 
 def test8():
     def tan_f(x): return trigonometric_function(x, 'tan')
