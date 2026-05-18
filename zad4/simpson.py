@@ -17,7 +17,7 @@ def simpson_integral_n_subintervals(function_to_integrate: Callable[[float], flo
 
     return result
 
-def simpson_integral(function_to_integrate: Callable[[float], float], start: float, end: float, epsilon: float) -> tuple[float, int, int, int]:
+def simpson_integral(function_to_integrate: Callable[[float], float], start: float, end: float, epsilon: float) -> tuple[float, int, int]:
     current_subintervals = 2
     iterations = 1
 
@@ -38,7 +38,6 @@ def simpson_integral(function_to_integrate: Callable[[float], float], start: flo
         current_integral_value = simpson_integral_n_subintervals(cached_function_to_integrate, start, end, current_subintervals)
 
         if abs(current_integral_value - previous_integral_value) < epsilon:
-            total_evaluations = len(evaluated_nodes_cache)
-            return current_integral_value, iterations, current_subintervals, total_evaluations
+            return current_integral_value, iterations, current_subintervals
 
         previous_integral_value = current_integral_value

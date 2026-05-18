@@ -9,27 +9,27 @@ def main():
     start, end = get_interval()
     epsilon = get_epsilon()
 
-    simpson_result, simpson_iterations, simpson_n, simpson_evals = simpson_integral(final_function, start, end, epsilon)
+    simpson_result, simpson_iterations, simpson_n = simpson_integral(final_function, start, end, epsilon)
 
     gauss_results = []
     for n in [2, 3, 4, 5]:
         gauss_results.append(gauss_legendre_integral(final_function, start, end, n))
 
-    print_results(simpson_result, simpson_iterations, simpson_n, simpson_evals, gauss_results)
+    print_results(simpson_result, simpson_iterations, simpson_n, gauss_results)
 
-def print_results(simpson_result: float, simpson_iterations: int, simpson_n: int, simpson_evals: int, gauss_results: list[float]):
+def print_results(simpson_result: float, simpson_iterations: int, simpson_n: int, gauss_results: list[float]):
     print("\n" + "=" * 40)
-    print("\n----- METODA SIMPSONA -----")
-    print(f"Wynik:                      {simpson_result}")
+    print("\n----- KWADRATURA NEWTONA-COTESA -----")
+    print(f"Wynik:                      {simpson_result:.4f}")
     print(f"Liczba iteracji:            {simpson_iterations}")
     print(f"Liczba podprzedziałów:      {simpson_n}")
-    print(f"Liczba wywołań:             {simpson_evals}")
+    print(f"Liczba wywołań:             {simpson_n + 1}")
 
-    print("\n----- METODA GAUSSA-LEGENDRE'A -----")
+    print("\n----- KWADRATURA GAUSSA-LEGENDRE'A -----")
     for idx, n_nodes in enumerate([2, 3, 4, 5]):
         result = gauss_results[idx]
         print(f"\nDla {n_nodes} węzłów:")
-        print(f"  Wynik:                    {result}")
+        print(f"  Wynik:                    {result:.4f}")
         print(f"  Liczba wywołań:           {n_nodes}")
     print("\n" + "=" * 40)
 
