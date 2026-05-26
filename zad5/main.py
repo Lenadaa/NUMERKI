@@ -16,7 +16,7 @@ def main():
 
     print("\nWybierz tryb pracy")
     print("1. Tryb standardowy - podajesz stopień wielomianu")
-    print("2. Tryb zaawansowany - podajesz oczekiwany błąd, program szuka stopnia.")
+    print("2. Tryb zaawansowany - podajesz oczekiwany błąd.")
 
     choice = input("Wybierz typ (1-2): ")
 
@@ -24,8 +24,6 @@ def main():
         run_standard_mode(final_function, start, end, n_nodes)
     if choice == '2':
         run_advanced_mode(final_function, start, end, n_nodes)
-    else:
-        print("Wybrany tryb nie istnieje.")
 
 
 def select_function():
@@ -106,8 +104,13 @@ def run_standard_mode(target_function: Callable[[float], float], start: float, e
 
     plot_approximation(target_function, coeffs, error, start, end, n_nodes)
 
+    error = round(error, 6)
+
+    print(f"\nStopień n: {degree}")
+    print(f"Błąd: {error}")
+
 def run_advanced_mode(target_function: Callable[[float], float], start: float, end: float, n_nodes: int):
-    target_error = int(input("\nPodaj maksymalny błąd aproksymacji: "))
+    target_error = float(input("\nPodaj maksymalny błąd aproksymacji: "))
 
     degree = 1
     MAX_DEGREE = 20
@@ -117,12 +120,23 @@ def run_advanced_mode(target_function: Callable[[float], float], start: float, e
         error = compute_error(target_function, start, end, coeffs, n_nodes)
 
         if error <= target_error:
+            print(f"\nStopień n: {degree}")
+            print(f"Błąd: {error}")
+            print(f"Ilość iteracji: {degree}")
+
             plot_approximation(target_function, coeffs, error, start, end, n_nodes)
             return
-
         degree += 1
 
+    error = round(error, 6)
+
+    print(f"\nStopień n: {degree}")
+    print(f"Błąd: {error}")
+    print(f"Ilość iteracji: {degree}")
+
     plot_approximation(target_function, coeffs, error, start, end, n_nodes)
+
+    return
 
 if __name__ == "__main__":
     main()
